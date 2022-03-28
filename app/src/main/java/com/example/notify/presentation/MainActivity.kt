@@ -1,4 +1,4 @@
-package com.example.notify
+package com.example.notify.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.notify.route.Navigation
 import com.example.notify.ui.theme.NotifyTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,12 +19,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             NotifyTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
+                Navigation()
+//                Surface(
+//                    modifier = Modifier.fillMaxSize(),
+//                    color = MaterialTheme.colors.background
+//                ) {
+//                    Greeting("Android")
+//                }
             }
         }
     }
