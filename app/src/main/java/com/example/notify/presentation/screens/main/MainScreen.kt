@@ -4,6 +4,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -11,10 +12,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.notify.R
+import com.example.notify.presentation.screens.calendar.CalendarScreen
+import com.example.notify.presentation.screens.notes.NotesScreen
+import com.example.notify.presentation.screens.todolist.ToDoListScreen
 import com.example.notify.presentation.theme.NotifyTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 
 @OptIn(ExperimentalPagerApi::class)
@@ -34,7 +37,7 @@ fun MainScreen(
         // Override the indicator, using the provided pagerTabIndicatorOffset modifier
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
-                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+                Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage])
             )
         }
     ) {
@@ -54,13 +57,13 @@ fun MainScreen(
     ) { page ->
         when (page) {
             0 -> {
-
+                NotesScreen()
             }
             1 -> {
-
+                ToDoListScreen()
             }
             2 -> {
-
+                CalendarScreen()
             }
             else -> {
 
