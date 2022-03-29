@@ -1,4 +1,4 @@
-package com.example.notify.ui.theme
+package com.example.notify.presentation.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

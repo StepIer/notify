@@ -1,12 +1,12 @@
 package com.example.notify.presentation.screens.notes
 
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
+import com.google.accompanist.pager.ExperimentalPagerApi
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun NotesScreen(
-    navController: NavController
+
 ) {
-    Text(text = "dcjmnkscnd")
+
 }
