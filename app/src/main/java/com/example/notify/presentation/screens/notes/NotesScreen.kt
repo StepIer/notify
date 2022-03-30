@@ -1,12 +1,10 @@
 package com.example.notify.presentation.screens.notes
 
 import androidx.compose.runtime.Composable
-import com.google.accompanist.pager.ExperimentalPagerApi
+import androidx.lifecycle.viewmodel.compose.viewModel
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun NotesScreen(
-
 ) {
-
+    val notesViewModel: NotesViewModel = viewModel()
 }
