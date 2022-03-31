@@ -1,5 +1,6 @@
 package com.example.notify.presentation.screens.main
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Icon
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
@@ -31,42 +32,44 @@ fun MainScreen(
         painterResource(id = R.drawable.ic_outline_fact_check_24),
         painterResource(id = R.drawable.ic_outline_event_24),
     )
-    TabRow(
-        // Our selected tab is our current page
-        selectedTabIndex = pagerState.currentPage,
-        // Override the indicator, using the provided pagerTabIndicatorOffset modifier
-        indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
-                Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage])
-            )
+    Column() {
+        TabRow(
+            // Our selected tab is our current page
+            selectedTabIndex = pagerState.currentPage,
+            // Override the indicator, using the provided pagerTabIndicatorOffset modifier
+            indicator = { tabPositions ->
+                TabRowDefaults.Indicator(
+                    Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage])
+                )
+            }
+        ) {
+            // Add tabs for all of our pages
+            pages.forEachIndexed { index, title ->
+                Tab(
+                    selected = pagerState.currentPage == index,
+                    onClick = { /* TODO */ },
+                    icon = { Icon(painter = title, contentDescription = "main_tab") }
+                )
+            }
         }
-    ) {
-        // Add tabs for all of our pages
-        pages.forEachIndexed { index, title ->
-            Tab(
-                selected = pagerState.currentPage == index,
-                onClick = { /* TODO */ },
-                icon = { Icon(painter = title, contentDescription = "main_tab") }
-            )
-        }
-    }
 
-    HorizontalPager(
-        count = pages.size,
-        state = pagerState,
-    ) { page ->
-        when (page) {
-            0 -> {
-                NotesScreen()
-            }
-            1 -> {
-                ToDoListScreen()
-            }
-            2 -> {
-                CalendarScreen()
-            }
-            else -> {
+        HorizontalPager(
+            count = pages.size,
+            state = pagerState,
+        ) { page ->
+            when (page) {
+                0 -> {
+                    NotesScreen(navController = navController)
+                }
+                1 -> {
+                    ToDoListScreen()
+                }
+                2 -> {
+                    CalendarScreen()
+                }
+                else -> {
 
+                }
             }
         }
     }

@@ -6,11 +6,13 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class GetAllNotesUseCaseImpl(
+class InsertNoteUseCaseImpl(
     private val notesRepository: NotesRepository,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-) : GetAllNotesUseCase {
-    override suspend fun invoke(): List<Note> = withContext(ioDispatcher) {
-        notesRepository.getAllNotes()
+) : InsertNoteUseCase {
+    override suspend fun invoke(note: Note) {
+        withContext(ioDispatcher) {
+            notesRepository.insertNote(note)
+        }
     }
 }
