@@ -1,4 +1,4 @@
-package com.example.notify.presentation.screens.todolist
+package com.example.notify.presentation.screens.worklist
 
 import androidx.compose.runtime.Composable
 

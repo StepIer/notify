@@ -1,4 +1,4 @@
-package com.example.notify.data.notes
+package com.example.notify.data.notes.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

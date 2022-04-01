@@ -2,8 +2,8 @@ package com.example.notify.di.notes
 
 import android.content.Context
 import androidx.room.Room
-import com.example.notify.data.notes.NotesDao
-import com.example.notify.data.notes.NotesDatabase
+import com.example.notify.data.notes.db.NotesDao
+import com.example.notify.data.notes.db.NotesDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

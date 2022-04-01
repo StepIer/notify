@@ -15,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.notify.R
 import com.example.notify.presentation.screens.calendar.CalendarScreen
 import com.example.notify.presentation.screens.notes.NotesScreen
-import com.example.notify.presentation.screens.todolist.ToDoListScreen
+import com.example.notify.presentation.screens.worklist.ToDoListScreen
 import com.example.notify.presentation.theme.NotifyTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager

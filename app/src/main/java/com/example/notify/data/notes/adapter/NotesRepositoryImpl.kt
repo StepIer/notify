@@ -1,6 +1,6 @@
 package com.example.notify.data.notes.adapter
 
-import com.example.notify.data.notes.NotesDao
+import com.example.notify.data.notes.db.NotesDao
 import com.example.notify.data.notes.model.toDomainModel
 import com.example.notify.domain.notes.adapter.NotesRepository
 import com.example.notify.domain.notes.model.Note

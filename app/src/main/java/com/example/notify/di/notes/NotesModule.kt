@@ -1,7 +1,7 @@
 package com.example.notify.di.notes
 
-import com.example.notify.data.notes.NotesDao
 import com.example.notify.data.notes.adapter.NotesRepositoryImpl
+import com.example.notify.data.notes.db.NotesDao
 import com.example.notify.domain.notes.adapter.NotesRepository
 import dagger.Module
 import dagger.Provides

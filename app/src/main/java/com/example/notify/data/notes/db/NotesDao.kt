@@ -1,4 +1,4 @@
-package com.example.notify.data.notes
+package com.example.notify.data.notes.db
 
 import androidx.room.Dao
 import androidx.room.Insert
