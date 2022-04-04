@@ -62,7 +62,7 @@ fun MainScreen(
                     NotesScreen(navController = navController)
                 }
                 1 -> {
-                    ToDoListScreen()
+                    ToDoListScreen(navController = navController)
                 }
                 2 -> {
                     CalendarScreen()
