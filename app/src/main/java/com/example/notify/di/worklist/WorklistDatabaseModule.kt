@@ -1,9 +1,9 @@
-package com.example.notify.di.notes
+package com.example.notify.di.worklist
 
 import android.content.Context
 import androidx.room.Room
-import com.example.notify.data.notes.db.NotesDao
-import com.example.notify.data.notes.db.NotesDatabase
+import com.example.notify.data.worklist.db.WorklistDao
+import com.example.notify.data.worklist.db.WorklistDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,21 +13,21 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object NotesDatabaseModule {
+object WorklistDatabaseModule {
 
     @Provides
     @Singleton
-    fun provideNoteDao(database: NotesDatabase): NotesDao {
-        return database.notesDao()
+    fun provideWorklistDao(database: WorklistDatabase): WorklistDao {
+        return database.worklistDao()
     }
 
     @Provides
     @Singleton
-    fun provideNotesDatabase(@ApplicationContext appContext: Context): NotesDatabase {
+    fun provideWorklistDatabase(@ApplicationContext appContext: Context): WorklistDatabase {
         return Room.databaseBuilder(
             appContext,
-            NotesDatabase::class.java,
-            "notes"
+            WorklistDatabase::class.java,
+            "worklist"
         ).build()
     }
 }

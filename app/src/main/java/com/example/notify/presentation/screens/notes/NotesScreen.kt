@@ -47,7 +47,9 @@ fun NotesScreen(
                 //todo searchbar
             }
             items(notes.value) {
-                NoteTile(note = it)
+                NoteTile(note = it) {
+                    navController.navigate(NavigationRoute.ROUTE_TABLET)
+                }
             }
         }
     }
