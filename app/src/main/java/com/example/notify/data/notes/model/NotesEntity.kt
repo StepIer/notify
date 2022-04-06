@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.notify.domain.notes.model.Note
+import java.time.LocalDateTime
 
 @Entity(tableName = "notes")
 data class NotesEntity(
@@ -19,9 +20,9 @@ data class NotesEntity(
     @ColumnInfo(name = "audio")
     val audio: String?,
     @ColumnInfo(name = "color")
-    val color: String?,
+    val color: Int,
     @ColumnInfo(name = "date")
-    val date: Int,
+    val date: LocalDateTime,
 )
 
 fun NotesEntity.toDomainModel(): Note {

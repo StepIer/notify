@@ -8,12 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.notify.R
 import com.example.notify.domain.notes.model.Note
+import com.example.notify.presentation.theme.Orange400
+import java.time.LocalDateTime
 
 @Composable
 fun TabletScreen(navController: NavController) {
@@ -31,7 +34,9 @@ fun TabletScreen(navController: NavController) {
                             tabletViewModel.saveNote(
                                 Note(
                                     text = text.value,
-                                    date = 1
+                                    date = LocalDateTime.now(),
+                                    title = "title",
+                                    color = Orange400.toArgb()
                                 )
                             )
                         }) {

@@ -7,6 +7,7 @@ import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,6 +21,7 @@ import com.example.notify.presentation.theme.NotifyTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -27,12 +29,13 @@ fun MainScreen(
     navController: NavController
 ) {
     val pagerState = rememberPagerState()
+    val scope = rememberCoroutineScope()
     val pages = listOf(
         painterResource(id = R.drawable.ic_outline_book_24),
         painterResource(id = R.drawable.ic_outline_fact_check_24),
         painterResource(id = R.drawable.ic_outline_event_24),
     )
-    Column() {
+    Column {
         TabRow(
             // Our selected tab is our current page
             selectedTabIndex = pagerState.currentPage,
@@ -47,7 +50,11 @@ fun MainScreen(
             pages.forEachIndexed { index, title ->
                 Tab(
                     selected = pagerState.currentPage == index,
-                    onClick = { /* TODO */ },
+                    onClick = {
+                        scope.launch {
+                            pagerState.animateScrollToPage(index)
+                        }
+                    },
                     icon = { Icon(painter = title, contentDescription = "main_tab") }
                 )
             }
@@ -75,7 +82,7 @@ fun MainScreen(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun DefaultPreview() {
     NotifyTheme {

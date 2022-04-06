@@ -1,7 +1,9 @@
 package com.example.notify.presentation.screens.notes
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -11,8 +13,8 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -20,6 +22,7 @@ import com.example.notify.domain.notes.model.Note
 import com.example.notify.presentation.screens.notes.components.NoteTile
 import com.example.notify.route.NavigationRoute
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NotesScreen(
     navController: NavController
@@ -40,12 +43,13 @@ fun NotesScreen(
         },
         isFloatingActionButtonDocked = true,
     ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize()
+        LazyVerticalGrid(
+            cells = GridCells.Fixed(2),
+            contentPadding = PaddingValues(8.dp)
         ) {
-            item {
-                //todo searchbar
-            }
+//            item {
+//                //todo searchbar
+//            }
             items(notes.value) {
                 NoteTile(note = it) {
                     navController.navigate(NavigationRoute.ROUTE_TABLET)

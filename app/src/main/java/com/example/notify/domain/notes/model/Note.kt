@@ -1,6 +1,7 @@
 package com.example.notify.domain.notes.model
 
 import com.example.notify.data.notes.model.NotesEntity
+import java.time.LocalDateTime
 
 data class Note(
     val id: Int? = null,
@@ -8,8 +9,8 @@ data class Note(
     val text: String? = null,
     val image: String? = null,
     val audio: String? = null,
-    val color: String? = null,
-    val date: Int,
+    val color: Int,
+    val date: LocalDateTime,
 )
 
 fun Note.toDataModel(): NotesEntity {
