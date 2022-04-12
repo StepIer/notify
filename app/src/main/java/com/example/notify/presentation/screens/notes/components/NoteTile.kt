@@ -1,9 +1,14 @@
 package com.example.notify.presentation.screens.notes.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -23,15 +28,15 @@ import java.time.LocalDateTime
 fun NoteTile(
     note: Note,
     onClick: () -> Unit,
+    onDeleteClick: () -> Unit,
 ) {
     Card(
         modifier = Modifier
             .padding(all = 4.dp)
             .fillMaxHeight()
-            .heightIn(0.dp, 200.dp),
+            .heightIn(64.dp, 200.dp),
         onClick = { onClick() }
     ) {
-
         Column(
             modifier = Modifier
                 .background(color = Color(note.color))
@@ -41,19 +46,29 @@ fun NoteTile(
                     text = it,
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp)
                 )
             }
             note.text?.let {
-                Text(text = it, fontSize = 14.sp, textAlign = TextAlign.Justify)
+                Text(
+                    text = it,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Justify,
+                    modifier = Modifier.padding(all = 8.dp)
+                )
             }
         }
 
-        IconButton(onClick = {
-
-        }) {
+        Box() {
             Icon(
-                painter = painterResource(id = R.drawable.ic_outline_delete_forever_24),
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .clickable {
+                        onDeleteClick()
+                    },
+                painter = painterResource(id = R.drawable.ic_outline_close_24),
                 contentDescription = "delete note"
             )
         }
@@ -70,9 +85,9 @@ fun NotePreview() {
                 text = "sdc",
                 date = LocalDateTime.now(),
                 color = Orange400.toArgb()
-            )
-        ) {
-
-        }
+            ),
+            {},
+            {}
+        )
     }
 }

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">notify</string>
+
+    <!--    dialog-->
+    <string name="dismiss_button">Dismiss</string>
+    <string name="confirm_button">Confirm</string>
+
+    <!--    notes screen-->
+    <string name="title_dialog">Delete entry</string>
+    <string name="text_dialog">Are you sure you want to delete the entry</string>
 </resources>

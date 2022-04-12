@@ -20,6 +20,18 @@ class NotesRepositoryImpl(
     }
 
     override fun insertNote(note: Note) {
-        return notesDao.insertNote(note.toDataModel())
+        notesDao.insertNote(note.toDataModel())
+    }
+
+    override fun deleteNoteById(id: Int) {
+        notesDao.deleteNoteById(id)
+    }
+
+    override fun getNoteById(id: Int): Flow<Note> {
+        return notesDao.getNoteById(id).map { it.toDomainModel() }
+    }
+
+    override fun updateNote(note: Note) {
+        notesDao.updateNote(note.toDataModel())
     }
 }

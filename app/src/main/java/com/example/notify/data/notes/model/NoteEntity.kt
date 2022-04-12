@@ -7,7 +7,7 @@ import com.example.notify.domain.notes.model.Note
 import java.time.LocalDateTime
 
 @Entity(tableName = "notes")
-data class NotesEntity(
+data class NoteEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id: Int?,
@@ -25,7 +25,7 @@ data class NotesEntity(
     val date: LocalDateTime,
 )
 
-fun NotesEntity.toDomainModel(): Note {
+fun NoteEntity.toDomainModel(): Note {
     return Note(
         id = this.id,
         title = this.title,

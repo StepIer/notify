@@ -1,10 +1,7 @@
 package com.example.notify.di.notes
 
 import com.example.notify.domain.notes.adapter.NotesRepository
-import com.example.notify.domain.notes.usecase.GetAllNotesUseCase
-import com.example.notify.domain.notes.usecase.GetAllNotesUseCaseImpl
-import com.example.notify.domain.notes.usecase.InsertNoteUseCase
-import com.example.notify.domain.notes.usecase.InsertNoteUseCaseImpl
+import com.example.notify.domain.notes.usecase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,5 +23,26 @@ object NotesUseCasesModule {
         notesRepository: NotesRepository,
     ): InsertNoteUseCase {
         return InsertNoteUseCaseImpl(notesRepository)
+    }
+
+    @Provides
+    fun provideDeleteNoteByIdUseCase(
+        notesRepository: NotesRepository
+    ): DeleteNoteByIdUseCase {
+        return DeleteNoteByIdUseCaseImpl(notesRepository)
+    }
+
+    @Provides
+    fun provideGetNoteByIdUseCase(
+        notesRepository: NotesRepository
+    ): GetNoteByIdUseCase {
+        return GetNoteByIdUseCaseImpl(notesRepository)
+    }
+
+    @Provides
+    fun provideUpdateNoteUseCase(
+        notesRepository: NotesRepository
+    ): UpdateNoteUseCase {
+        return UpdateNoteUseCaseImpl(notesRepository)
     }
 }

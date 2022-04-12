@@ -10,3 +10,9 @@ class NavigationRoute {
         const val ROUTE_CALENDAR = "route_calendar"
     }
 }
+
+class NavigationArguments {
+    companion object {
+        const val ARGUMENT_NOTE_ID = "noteId"
+    }
+}
