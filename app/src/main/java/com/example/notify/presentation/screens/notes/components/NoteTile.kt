@@ -61,7 +61,7 @@ fun NoteTile(
             }
         }
 
-        Box() {
+        Box {
             Icon(
                 modifier = Modifier
                     .align(Alignment.TopEnd)

@@ -8,4 +8,8 @@
     <!--    notes screen-->
     <string name="title_dialog">Delete entry</string>
     <string name="text_dialog">Are you sure you want to delete the entry</string>
+
+    <!--    tablet screen-->
+    <string name="tap_to_start_write">Tap to start write</string>
+    <string name="title_note">Title note</string>
 </resources>
