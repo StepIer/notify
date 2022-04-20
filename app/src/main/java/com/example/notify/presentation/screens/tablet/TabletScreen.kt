@@ -60,13 +60,14 @@ fun TabletScreen(
                 TextContentTableScreen(note = note, photoUri = photoUri)
             }
             ScreenMode.Paint -> {
-
+                PaintContentTableScreen()
             }
             ScreenMode.Photo -> {
                 screenMode.value = ScreenMode.Text
                 navController.navigate(NavigationRoute.ROUTE_CAMERA)
             }
         }
+        PaintContentTableScreen()
     }
 }
 
@@ -104,7 +105,7 @@ fun TextContentTableScreen(
 
 @Composable
 fun PaintContentTableScreen() {
-
+    PaintScreen()
 }
 
 @Composable
@@ -141,5 +142,7 @@ fun BottomBarTabletScreen(
         }
     }
 }
+
+
 
 
