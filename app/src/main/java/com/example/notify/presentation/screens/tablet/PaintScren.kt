@@ -1,6 +1,5 @@
 package com.example.notify.presentation.screens.tablet
 
-import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
@@ -57,23 +56,12 @@ fun PaintScreen() {
         action.value?.let {
 
             collectList.add(it)
-//            drawPath(
-//                path = collectList.toPath(),
-//                color = Color.Green,
-//                alpha = 1f,
-//                style = Stroke(10f)
-//            )
             drawPath(
                 path = triggerList.toPath(),
                 color = Color.Red,
                 alpha = 1f,
                 style = Stroke(10f)
             )
-
-
-            if (collectList != triggerList) {
-                Log.d("Track", "Different! ${triggerList.subtract(collectList)}")
-            }
         }
     }
 }

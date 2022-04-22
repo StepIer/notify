@@ -55,11 +55,14 @@ fun TabletScreen(
             )
         }
     ) {
+        PaintContentTableScreen()
         when (screenMode.value) {
             ScreenMode.Text -> {
+                PaintContentTableScreen()
                 TextContentTableScreen(note = note, photoUri = photoUri)
             }
             ScreenMode.Paint -> {
+                TextContentTableScreen(note = note, photoUri = photoUri)
                 PaintContentTableScreen()
             }
             ScreenMode.Photo -> {
@@ -67,7 +70,6 @@ fun TabletScreen(
                 navController.navigate(NavigationRoute.ROUTE_CAMERA)
             }
         }
-        PaintContentTableScreen()
     }
 }
 
