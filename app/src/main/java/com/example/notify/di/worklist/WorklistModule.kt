@@ -1,6 +1,7 @@
 package com.example.notify.di.worklist
 
 import com.example.notify.data.worklist.adapter.WorklistRepositoryImpl
+import com.example.notify.data.worklist.db.EntryDao
 import com.example.notify.data.worklist.db.WorklistDao
 import com.example.notify.domain.worklist.adapter.WorklistRepository
 import dagger.Module
@@ -14,10 +15,12 @@ object WorklistModule {
 
     @Provides
     fun provideWorklistRepository(
-        worklistDao: WorklistDao
+        worklistDao: WorklistDao,
+        entryDao: EntryDao
     ): WorklistRepository {
         return WorklistRepositoryImpl(
-            worklistDao
+            worklistDao,
+            entryDao
         )
     }
 }

@@ -11,7 +11,7 @@ data class WorklistEntity(
     @ColumnInfo(name = "title")
     val title: String,
     @ColumnInfo(name = "color")
-    val color: String?,
+    val color: Int,
 )
 
 fun WorklistEntity.toDomain(): Worklist {

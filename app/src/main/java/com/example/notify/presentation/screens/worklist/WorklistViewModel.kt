@@ -3,6 +3,7 @@ package com.example.notify.presentation.screens.worklist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.notify.domain.worklist.model.Worklist
+import com.example.notify.domain.worklist.usecase.DeleteWorklistByTitleUseCase
 import com.example.notify.domain.worklist.usecase.GetAllWorklistUseCase
 import com.example.notify.domain.worklist.usecase.InsertWorklistUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +16,7 @@ import javax.inject.Inject
 class WorklistViewModel @Inject constructor(
     private val getAllWorklistUseCase: GetAllWorklistUseCase,
     private val insertWorklistUseCase: InsertWorklistUseCase,
+    private val deleteWorklistByTitleUseCase: DeleteWorklistByTitleUseCase,
 ) : ViewModel() {
 
     fun getWorklists(): Flow<List<Worklist>> {
@@ -27,6 +29,12 @@ class WorklistViewModel @Inject constructor(
                 insertWorklistUseCase.invoke(worklist)
             } catch (e: Exception) {
             }
+        }
+    }
+
+    fun deleteWorklist(title: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteWorklistByTitleUseCase.invoke(title)
         }
     }
 }

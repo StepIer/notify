@@ -14,4 +14,7 @@ interface WorklistDao {
 
     @Insert
     fun insertWorklist(worklistEntity: WorklistEntity)
+
+    @Query("DELETE FROM worklist WHERE title = :title")
+    fun deleteWorklistByTitle(title: String)
 }

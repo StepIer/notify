@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.notify.presentation.screens.camera.CameraScreen
+import com.example.notify.presentation.screens.entry.EntryScreen
 import com.example.notify.presentation.screens.main.MainScreen
 import com.example.notify.presentation.screens.tablet.TabletScreen
 
@@ -47,6 +48,23 @@ fun Navigation() {
 
         composable(NavigationRoute.ROUTE_CAMERA) {
             CameraScreen(navController = navController)
+        }
+
+        composable(
+            NavigationRoute.ROUTE_ENTRY + "?${NavigationArguments.ARGUMENT_WORKLIST}" +
+                    "={${NavigationArguments.ARGUMENT_WORKLIST}}",
+            arguments = listOf(
+                navArgument(NavigationArguments.ARGUMENT_NOTE_ID) {
+                    nullable = true
+                    defaultValue = null
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            EntryScreen(
+                navController = navController,
+                worklistName = it.arguments?.getString(NavigationArguments.ARGUMENT_WORKLIST)
+            )
         }
     }
 }

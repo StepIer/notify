@@ -1,10 +1,7 @@
 package com.example.notify.di.worklist
 
 import com.example.notify.domain.worklist.adapter.WorklistRepository
-import com.example.notify.domain.worklist.usecase.GetAllWorklistUseCase
-import com.example.notify.domain.worklist.usecase.GetAllWorklistUseCaseImpl
-import com.example.notify.domain.worklist.usecase.InsertWorklistUseCase
-import com.example.notify.domain.worklist.usecase.InsertWorklistUseCaseImpl
+import com.example.notify.domain.worklist.usecase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,5 +23,40 @@ object WorklistUseCasesModule {
         worklistRepository: WorklistRepository,
     ): InsertWorklistUseCase {
         return InsertWorklistUseCaseImpl(worklistRepository)
+    }
+
+    @Provides
+    fun provideDeleteWorklistByTitleUseCase(
+        worklistRepository: WorklistRepository,
+    ): DeleteWorklistByTitleUseCase {
+        return DeleteWorklistByTitleUseCaseImpl(worklistRepository)
+    }
+
+    @Provides
+    fun provideGetAllEntryByWorklistNameUseCase(
+        worklistRepository: WorklistRepository,
+    ): GetAllEntryByWorklistNameUseCase {
+        return GetAllEntryByWorklistNameUseCaseImpl(worklistRepository)
+    }
+
+    @Provides
+    fun provideInsertEntryUseCase(
+        worklistRepository: WorklistRepository,
+    ): InsertEntryUseCase {
+        return InsertEntryUseCaseImpl(worklistRepository)
+    }
+
+    @Provides
+    fun provideDeleteEntryByIdUseCase(
+        worklistRepository: WorklistRepository,
+    ): DeleteEntryByIdUseCase {
+        return DeleteEntryByIdUseCaseImpl(worklistRepository)
+    }
+
+    @Provides
+    fun provideUpdateEntryUseCase(
+        worklistRepository: WorklistRepository,
+    ): UpdateEntryUseCase {
+        return UpdateEntryUseCaseImpl(worklistRepository)
     }
 }
