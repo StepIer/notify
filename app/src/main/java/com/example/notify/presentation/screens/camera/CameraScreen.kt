@@ -37,8 +37,9 @@ fun CameraScreen(
                         NavigationRoute.ROUTE_TABLET +
                                 "?${NavigationArguments.ARGUMENT_NOTE_ID}=${null}" +
                                 ",?${NavigationArguments.ARGUMENT_PHOTO_URI}=${uri}"
-                    )
-//                    navController.popBackStack()
+                    ) {
+                        popUpTo(NavigationRoute.ROUTE_MAIN)
+                    }
                 }
             }
         },
