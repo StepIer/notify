@@ -46,8 +46,21 @@ fun Navigation() {
             )
         }
 
-        composable(NavigationRoute.ROUTE_CAMERA) {
-            CameraScreen(navController = navController)
+        composable(
+            NavigationRoute.ROUTE_CAMERA + "?${NavigationArguments.ARGUMENT_NOTE_ID}" +
+                    "={${NavigationArguments.ARGUMENT_NOTE_ID}}",
+            arguments = listOf(
+                navArgument(NavigationArguments.ARGUMENT_NOTE_ID) {
+                    nullable = true
+                    defaultValue = null
+                    type = NavType.StringType
+                })
+        ) {
+            CameraScreen(
+                navController = navController,
+                noteId = it.arguments?.getString(NavigationArguments.ARGUMENT_NOTE_ID)
+                    ?.toIntOrNull()
+            )
         }
 
         composable(

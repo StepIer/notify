@@ -15,8 +15,10 @@ data class NoteEntity(
     val title: String?,
     @ColumnInfo(name = "text")
     val text: String?,
-    @ColumnInfo(name = "image")
-    val image: String?,
+    @ColumnInfo(name = "photo")
+    val photo: String?,
+    @ColumnInfo(name = "paint")
+    val paint: PaintData,
     @ColumnInfo(name = "audio")
     val audio: String?,
     @ColumnInfo(name = "color")
@@ -30,7 +32,21 @@ fun NoteEntity.toDomainModel(): Note {
         id = this.id,
         title = this.title,
         text = this.text,
-        image = this.image,
+        photo = this.photo,
+        paint = this.paint.toDomainModel(),
+        audio = this.audio,
+        color = this.color,
+        date = this.date
+    )
+}
+
+fun Note.toDataModel(): NoteEntity {
+    return NoteEntity(
+        id = this.id,
+        title = this.title,
+        text = this.text,
+        photo = this.photo,
+        paint = this.paint.toDataModel(),
         audio = this.audio,
         color = this.color,
         date = this.date

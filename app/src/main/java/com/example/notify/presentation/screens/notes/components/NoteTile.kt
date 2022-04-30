@@ -1,5 +1,6 @@
 package com.example.notify.presentation.screens.notes.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.notify.R
 import com.example.notify.domain.notes.model.Note
 import com.example.notify.presentation.theme.NotifyTheme
@@ -34,12 +36,32 @@ fun NoteTile(
         modifier = Modifier
             .padding(all = 4.dp)
             .fillMaxHeight()
-            .heightIn(64.dp, 200.dp),
+            .heightIn(56.dp, 200.dp),
         onClick = { onClick() }
     ) {
+
+        // background
+        if (note.photo != null) {
+            Box(
+                modifier = Modifier
+                    .background(color = Color(note.color))
+            ) {
+                Image(
+                    painter = rememberAsyncImagePainter(note.photo),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxSize()
+                )
+            }
+        } else {
+            Box(
+                modifier = Modifier
+                    .background(color = Color(note.color))
+            )
+        }
+
         Column(
             modifier = Modifier
-                .background(color = Color(note.color))
         ) {
             note.title?.let {
                 Text(

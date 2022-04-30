@@ -1,5 +1,6 @@
 package com.example.notify.presentation.screens.tablet
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,7 +24,9 @@ import com.example.notify.R
 import com.example.notify.domain.notes.model.Note
 import com.example.notify.presentation.components.NotifyTextField
 import com.example.notify.presentation.screens.tablet.model.ScreenMode
+import com.example.notify.route.NavigationArguments
 import com.example.notify.route.NavigationRoute
+import java.time.LocalDateTime
 
 @Composable
 fun TabletScreen(
@@ -32,13 +35,23 @@ fun TabletScreen(
     photoUri: String?
 ) {
 
+    Log.e("rawr", "TabletScreen1: $noteId")
     val tabletViewModel: TabletViewModel = hiltViewModel()
     val note = (noteId?.let {
         tabletViewModel.getNoteById(it).collectAsState(initial = Note())
     } as? MutableState<Note>) ?: remember {
         mutableStateOf(Note())
     }
+    Log.e("rawr", "TabletScreen2: ${note.value.id}")
     val screenMode = remember { mutableStateOf(ScreenMode.Text) }
+
+    LaunchedEffect(key1 = null, block = {
+        photoUri?.let {
+            note.value = note.value.copy(
+                photo = it
+            )
+        }
+    })
 
     Scaffold(
         topBar = {
@@ -55,19 +68,37 @@ fun TabletScreen(
             )
         }
     ) {
-        PaintContentTableScreen()
-        when (screenMode.value) {
-            ScreenMode.Text -> {
-                PaintContentTableScreen()
-                TextContentTableScreen(note = note, photoUri = photoUri)
-            }
-            ScreenMode.Paint -> {
-                TextContentTableScreen(note = note, photoUri = photoUri)
-                PaintContentTableScreen()
-            }
-            ScreenMode.Photo -> {
-                screenMode.value = ScreenMode.Text
-                navController.navigate(NavigationRoute.ROUTE_CAMERA)
+        Box(modifier = Modifier.background(Color(note.value.color))) {
+            Image(
+                painter = rememberAsyncImagePainter(note.value.photo),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 52.dp)
+                    .padding(16.dp)
+            )
+            when (screenMode.value) {
+                ScreenMode.Text -> {
+                    PaintContentTableScreen(note = note)
+                    TextContentTableScreen(note = note)
+                }
+                ScreenMode.Paint -> {
+                    TextContentTableScreen(note = note)
+                    PaintContentTableScreen(note = note)
+                }
+                ScreenMode.Photo -> {
+                    screenMode.value = ScreenMode.Text
+                    tabletViewModel.saveNote(
+                        note.value.copy(
+                            date = LocalDateTime.now()
+                        ),
+                        isNeedUpdate = noteId != null,
+                    )
+                    navController.navigate(
+                        NavigationRoute.ROUTE_CAMERA +
+                                "?${NavigationArguments.ARGUMENT_NOTE_ID}=${note.value.id}"
+                    )
+                }
             }
         }
     }
@@ -75,23 +106,16 @@ fun TabletScreen(
 
 @Composable
 fun TextContentTableScreen(
-    note: MutableState<Note>,
-    photoUri: String?,
+    note: MutableState<Note>
 ) {
     Box(
         modifier = Modifier
-            .background(Color(note.value.color))
+//            .background(Color(note.value.color))
             .padding(16.dp)
             .fillMaxSize()
     ) {
-        Image(
-            painter = rememberAsyncImagePainter(photoUri),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 52.dp)
-        )
         NotifyTextField(
+            modifier = Modifier.fillMaxSize(),
             placeholder = stringResource(id = R.string.tap_to_start_write),
             value = note.value.text ?: "",
             onValueChange = {
@@ -106,8 +130,8 @@ fun TextContentTableScreen(
 }
 
 @Composable
-fun PaintContentTableScreen() {
-    PaintScreen()
+fun PaintContentTableScreen(note: MutableState<Note>) {
+    PaintScreen(note = note)
 }
 
 @Composable

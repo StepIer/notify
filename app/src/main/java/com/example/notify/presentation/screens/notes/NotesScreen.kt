@@ -60,7 +60,8 @@ fun NotesScreen(
                     onClick = {
                         navController.navigate(
                             NavigationRoute.ROUTE_TABLET +
-                                    "?${NavigationArguments.ARGUMENT_NOTE_ID}=${it.id}"
+                                    "?${NavigationArguments.ARGUMENT_NOTE_ID}=${it.id}" +
+                                    ",?${NavigationArguments.ARGUMENT_PHOTO_URI}=${null}"
                         )
                     },
                     onDeleteClick = {

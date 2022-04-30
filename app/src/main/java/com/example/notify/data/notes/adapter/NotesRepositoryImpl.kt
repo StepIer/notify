@@ -1,10 +1,10 @@
 package com.example.notify.data.notes.adapter
 
 import com.example.notify.data.notes.db.NotesDao
+import com.example.notify.data.notes.model.toDataModel
 import com.example.notify.data.notes.model.toDomainModel
 import com.example.notify.domain.notes.adapter.NotesRepository
 import com.example.notify.domain.notes.model.Note
-import com.example.notify.domain.notes.model.toDataModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
