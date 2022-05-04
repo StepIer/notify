@@ -1,84 +1,154 @@
 package com.example.notify.presentation.screens.events
 
-import android.app.DatePickerDialog
-import android.widget.DatePicker
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import java.util.*
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.notify.domain.events.model.Event
+import com.example.notify.presentation.components.NotifyTextField
+import com.example.notify.presentation.screens.events.components.EventsAddBtn
+import com.example.notify.presentation.screens.events.components.EventsTile
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.datetime.time.timepicker
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun EventsScreen() {
-    Scaffold(
-        content = {
-// Fetching the Local Context
-            val mContext = LocalContext.current
 
-            // Declaring integer values
-            // for year, month and day
-            val mYear: Int
-            val mMonth: Int
-            val mDay: Int
+    val eventsViewModel: EventsViewModel = hiltViewModel()
+    val events: State<List<Event>> =
+        eventsViewModel.getAllEvents().collectAsState(initial = listOf())
 
-            // Initializing a Calendar
-            val mCalendar = Calendar.getInstance()
+    val isOpenDialog = remember { mutableStateOf(false) }
+    val title = remember { mutableStateOf("") }
+    val message = remember { mutableStateOf("") }
+    val date = remember { mutableStateOf(LocalDate.now()) }
+    val time = remember { mutableStateOf(LocalTime.now()) }
 
-            // Fetching current year, month and day
-            mYear = mCalendar.get(Calendar.YEAR)
-            mMonth = mCalendar.get(Calendar.MONTH)
-            mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
+    val dateDialogState = rememberMaterialDialogState()
+    val timeDialogState = rememberMaterialDialogState()
 
-            mCalendar.time = Date()
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        items(events.value) {
+            EventsTile(event = it,
+                onClick = {
 
-            // Declaring a string value to
-            // store date in string format
-            val mDate = remember { mutableStateOf("") }
-
-            // Declaring DatePickerDialog and setting
-            // initial values as current values (present year, month and day)
-            val mDatePickerDialog = DatePickerDialog(
-                mContext,
-                { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
-                    mDate.value = "$mDayOfMonth/${mMonth + 1}/$mYear"
-                }, mYear, mMonth, mDay
-            )
-
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-
-                // Creating a button that on
-                // click displays/shows the DatePickerDialog
-                Button(onClick = {
-                    mDatePickerDialog.show()
-                }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(0XFF0F9D58))) {
-                    Text(text = "Open Date Picker", color = Color.White)
-                }
-
-                // Adding a space of 100dp height
-                Spacer(modifier = Modifier.size(100.dp))
-
-                // Displaying the mDate value in the Text
-                Text(
-                    text = "Selected Date: ${mDate.value}",
-                    fontSize = 30.sp,
-                    textAlign = TextAlign.Center
-                )
+                },
+                onDeleteClick = {
+//                    worklistViewModel.deleteWorklist(title = it.title)
+                })
+        }
+        item {
+            EventsAddBtn {
+                isOpenDialog.value = true
             }
         }
-    )
+    }
+
+    if (isOpenDialog.value) {
+        AlertDialog(
+            onDismissRequest = {
+                isOpenDialog.value = false
+            },
+            text = {
+                Column {
+
+                    NotifyTextField(value = title.value, onValueChange = {
+                        title.value = it
+                    }, placeholder = "Add title")
+                    NotifyTextField(value = message.value, onValueChange = {
+                        message.value = it
+                    }, placeholder = "Add message")
+                    Row {
+                        ClickableText(
+                            text = AnnotatedString(
+                                date.value.format(
+                                    DateTimeFormatter.ofPattern(
+                                        "dd-MM-yyyy"
+                                    )
+                                )
+                            ), onClick = {
+                                dateDialogState.show()
+                            })
+                        Spacer(modifier = Modifier.width(30.dp))
+                        ClickableText(
+                            text = AnnotatedString(
+                                time.value.format(
+                                    DateTimeFormatter.ofPattern(
+                                        "HH:mm:ss.SSS"
+                                    )
+                                )
+                            ), onClick = {
+                                timeDialogState.show()
+                            })
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        eventsViewModel.insertEvent(
+                            Event()
+                        )
+                        isOpenDialog.value = false
+                        title.value = ""
+                    }) {
+                    Text(stringResource(com.example.notify.R.string.confirm_button))
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        isOpenDialog.value = false
+                    }) {
+                    Text(stringResource(com.example.notify.R.string.dismiss_button))
+                }
+            }
+        )
+    }
+
+
+    MaterialDialog(
+        dialogState = dateDialogState,
+        buttons = {
+            positiveButton("Ok")
+            negativeButton("Cancel")
+        }
+    ) {
+        datepicker {
+            date.value = it
+            // Do stuff with java.time.LocalDate object which is passed in
+        }
+    }
+
+/* This should be called in an onClick or an Effect */
+
+
+    MaterialDialog(
+        dialogState = timeDialogState,
+        buttons = {
+            positiveButton("Ok")
+            negativeButton("Cancel")
+        }
+    ) {
+        timepicker {
+            time.value = it
+            // Do stuff with java.time.LocalTime object which is passed in
+        }
+    }
 }
