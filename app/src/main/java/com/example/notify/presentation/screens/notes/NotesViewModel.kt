@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.notify.domain.notes.model.Note
 import com.example.notify.domain.notes.usecase.DeleteNoteByIdUseCase
 import com.example.notify.domain.notes.usecase.GetAllNotesUseCase
+import com.example.notify.domain.notes.usecase.InsertNoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +16,7 @@ import javax.inject.Inject
 class NotesViewModel @Inject constructor(
     private val getAllNotesUseCase: GetAllNotesUseCase,
     private val deleteNoteByIdUseCase: DeleteNoteByIdUseCase,
+    private val insertNoteUseCase: InsertNoteUseCase,
 ) : ViewModel() {
 
     fun getNotes(): Flow<List<Note>> {
@@ -24,6 +26,12 @@ class NotesViewModel @Inject constructor(
     fun deleteNoteById(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteNoteByIdUseCase.invoke(id)
+        }
+    }
+
+    fun insertNote(note: Note) {
+        viewModelScope.launch(Dispatchers.IO) {
+            insertNoteUseCase.invoke(note)
         }
     }
 }

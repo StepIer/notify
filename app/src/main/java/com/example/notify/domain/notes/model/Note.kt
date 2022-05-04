@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 data class Note(
     val id: Int? = null,
     val title: String? = null,
-    val text: String? = null,
+    var text: String? = null,
     val photo: String? = null,
     val paint: Paint = Paint(item = mutableListOf()),
     val audio: String? = null,

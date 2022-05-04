@@ -41,7 +41,7 @@ fun NotesScreen(
                     Icon(Icons.Filled.Add, contentDescription = "Добавить")
                 },
                 onClick = {
-                    navController.navigate(NavigationRoute.ROUTE_TABLET)
+                    notesViewModel.insertNote(Note())
                 }
             )
         },

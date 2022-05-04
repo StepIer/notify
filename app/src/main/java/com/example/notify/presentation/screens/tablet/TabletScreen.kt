@@ -1,6 +1,5 @@
 package com.example.notify.presentation.screens.tablet
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -35,14 +34,12 @@ fun TabletScreen(
     photoUri: String?
 ) {
 
-    Log.e("rawr", "TabletScreen1: $noteId")
     val tabletViewModel: TabletViewModel = hiltViewModel()
     val note = (noteId?.let {
         tabletViewModel.getNoteById(it).collectAsState(initial = Note())
     } as? MutableState<Note>) ?: remember {
         mutableStateOf(Note())
     }
-    Log.e("rawr", "TabletScreen2: ${note.value.id}")
     val screenMode = remember { mutableStateOf(ScreenMode.Text) }
 
     LaunchedEffect(key1 = null, block = {
@@ -110,7 +107,6 @@ fun TextContentTableScreen(
 ) {
     Box(
         modifier = Modifier
-//            .background(Color(note.value.color))
             .padding(16.dp)
             .fillMaxSize()
     ) {
