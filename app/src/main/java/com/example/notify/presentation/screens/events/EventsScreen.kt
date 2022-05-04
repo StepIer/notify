@@ -1,4 +1,4 @@
-package com.example.notify.presentation.screens.calendar
+package com.example.notify.presentation.screens.events
 
 import android.app.DatePickerDialog
 import android.widget.DatePicker
@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import java.util.*
 
 @Composable
-fun CalendarScreen() {
+fun EventsScreen() {
     Scaffold(
         content = {
 // Fetching the Local Context

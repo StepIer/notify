@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.notify.R
-import com.example.notify.presentation.screens.calendar.CalendarScreen
+import com.example.notify.presentation.screens.events.EventsScreen
 import com.example.notify.presentation.screens.notes.NotesScreen
 import com.example.notify.presentation.screens.worklist.ToDoListScreen
 import com.example.notify.presentation.theme.NotifyTheme
@@ -72,7 +72,7 @@ fun MainScreen(
                     ToDoListScreen(navController = navController)
                 }
                 2 -> {
-                    CalendarScreen()
+                    EventsScreen()
                 }
                 else -> {
 

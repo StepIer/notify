@@ -3,7 +3,7 @@ package com.example.notify.data
 import androidx.room.TypeConverter
 import java.time.LocalDateTime
 
-class Converters {
+class LocalDateTimeConverters {
 
     @TypeConverter
     fun toDate(dateString: String?): LocalDateTime? {

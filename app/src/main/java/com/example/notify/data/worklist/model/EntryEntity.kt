@@ -7,13 +7,6 @@ import com.example.notify.domain.worklist.model.Entry
 
 @Entity(
     tableName = "entry"
-//    , foreignKeys = [ForeignKey(
-//        entity = WorklistEntity::class,
-//        parentColumns = arrayOf("title"),
-//        childColumns = arrayOf("worklist"),
-//        onDelete = ForeignKey.CASCADE,
-//        onUpdate = ForeignKey.CASCADE
-//    )]
 )
 data class EntryEntity(
     @PrimaryKey(autoGenerate = true)
