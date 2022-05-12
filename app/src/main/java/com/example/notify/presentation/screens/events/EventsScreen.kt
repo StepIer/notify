@@ -1,5 +1,9 @@
 package com.example.notify.presentation.screens.events
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -9,10 +13,12 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.work.WorkManager
 import com.example.notify.domain.events.model.Event
 import com.example.notify.presentation.components.NotifyTextField
 import com.example.notify.presentation.screens.events.components.EventsAddBtn
@@ -24,6 +30,7 @@ import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+
 
 @Composable
 fun EventsScreen() {
@@ -41,9 +48,32 @@ fun EventsScreen() {
     val dateDialogState = rememberMaterialDialogState()
     val timeDialogState = rememberMaterialDialogState()
 
+    val workManager = WorkManager.getInstance(LocalContext.current)
+    val context = LocalContext.current
+
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
+
+        item {
+            Button(onClick = {
+//                val myWorkRequest = OneTimeWorkRequestBuilder<NotifyWorker>()
+//                    .setInitialDelay(20, TimeUnit.SECONDS)
+//                    .build()
+//                workManager.enqueue(myWorkRequest)
+                val intent = Intent(context, MyBroadcastReceiver::class.java)
+                val pendingIntent = PendingIntent.getBroadcast(
+                    context.applicationContext, 234324243, intent, 0
+                )
+                val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
+                alarmManager!![AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
+                        + 8 * 1000] = pendingIntent
+                makeStatusNotification("1111111111111111111111111", context.applicationContext)
+            }) {
+                Text(text = "dscdscsdcdscsd")
+            }
+        }
+
         items(events.value) {
             EventsTile(event = it,
                 onClick = {
