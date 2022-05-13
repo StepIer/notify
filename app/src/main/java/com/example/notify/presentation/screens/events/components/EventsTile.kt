@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.notify.R
 import com.example.notify.domain.events.model.Event
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -34,7 +35,23 @@ fun EventsTile(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
+                text = event.title ?: "",
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+            )
+            Text(
                 text = event.message ?: "",
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+            )
+            Text(
+                text = event.date?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) ?: "",
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier

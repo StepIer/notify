@@ -1,10 +1,7 @@
 package com.example.notify.di.events
 
 import com.example.notify.domain.events.adapter.EventsRepository
-import com.example.notify.domain.events.usecase.GetAllEventsUseCase
-import com.example.notify.domain.events.usecase.GetAllEventsUseCaseImpl
-import com.example.notify.domain.events.usecase.InsertEventUseCase
-import com.example.notify.domain.events.usecase.InsertEventUseCaseImpl
+import com.example.notify.domain.events.usecase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,5 +23,12 @@ object EventsUseCasesModule {
         eventsRepository: EventsRepository,
     ): InsertEventUseCase {
         return InsertEventUseCaseImpl(eventsRepository)
+    }
+
+    @Provides
+    fun provideDeleteEventUseCase(
+        eventsRepository: EventsRepository,
+    ): DeleteEventUseCase {
+        return DeleteEventUseCaseImpl(eventsRepository)
     }
 }

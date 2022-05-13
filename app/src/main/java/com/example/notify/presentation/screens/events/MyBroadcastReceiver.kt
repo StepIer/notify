@@ -6,6 +6,10 @@ import android.content.Intent
 
 class MyBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        makeStatusNotification("dsfdsfdsfsdf", context)
+        makeStatusNotification(
+            intent.getStringExtra("title") ?: "empty",
+            intent.getStringExtra("message") ?: "empty",
+            context
+        )
     }
 }

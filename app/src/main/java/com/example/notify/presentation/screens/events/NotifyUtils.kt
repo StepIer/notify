@@ -7,7 +7,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.notify.R
 
-fun makeStatusNotification(message: String, context: Context) {
+fun makeStatusNotification(title: String, message: String, context: Context) {
 
     // Make a channel if necessary
     // Create the NotificationChannel, but only on API 26+ because
@@ -27,7 +27,7 @@ fun makeStatusNotification(message: String, context: Context) {
     // Create the notification
     val builder = NotificationCompat.Builder(context, CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_launcher_foreground)
-        .setContentTitle(NOTIFICATION_TITLE)
+        .setContentTitle(title)
         .setContentText(message)
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .setVibrate(LongArray(1))

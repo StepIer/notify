@@ -28,8 +28,11 @@ import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import kotlin.random.Random
 
 
 @Composable
@@ -54,33 +57,13 @@ fun EventsScreen() {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
-
-        item {
-            Button(onClick = {
-//                val myWorkRequest = OneTimeWorkRequestBuilder<NotifyWorker>()
-//                    .setInitialDelay(20, TimeUnit.SECONDS)
-//                    .build()
-//                workManager.enqueue(myWorkRequest)
-                val intent = Intent(context, MyBroadcastReceiver::class.java)
-                val pendingIntent = PendingIntent.getBroadcast(
-                    context.applicationContext, 234324243, intent, 0
-                )
-                val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
-                alarmManager!![AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
-                        + 8 * 1000] = pendingIntent
-                makeStatusNotification("1111111111111111111111111", context.applicationContext)
-            }) {
-                Text(text = "dscdscsdcdscsd")
-            }
-        }
-
         items(events.value) {
             EventsTile(event = it,
                 onClick = {
 
                 },
                 onDeleteClick = {
-//                    worklistViewModel.deleteWorklist(title = it.title)
+                    eventsViewModel.deleteEvent(it)
                 })
         }
         item {
@@ -120,7 +103,7 @@ fun EventsScreen() {
                             text = AnnotatedString(
                                 time.value.format(
                                     DateTimeFormatter.ofPattern(
-                                        "HH:mm:ss.SSS"
+                                        "HH:mm:ss"
                                     )
                                 )
                             ), onClick = {
@@ -133,10 +116,29 @@ fun EventsScreen() {
                 Button(
                     onClick = {
                         eventsViewModel.insertEvent(
-                            Event()
+                            Event(
+                                title = title.value,
+                                message = message.value,
+                                date = LocalDateTime.of(date.value, time.value)
+                            )
                         )
                         isOpenDialog.value = false
-                        title.value = ""
+                        val random = Random(200)
+                        val intent = Intent(context, MyBroadcastReceiver::class.java)
+                        intent.putExtra("title", title.value + ": " + message.value)
+                        intent.putExtra("message", title.value + ": " + message.value)
+                        val pendingIntent = PendingIntent.getBroadcast(
+                            context.applicationContext,
+                            random.nextInt(),
+                            intent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                        )
+                        val alarmManager =
+                            context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
+                        alarmManager!![AlarmManager.RTC_WAKEUP, LocalDateTime.of(
+                            date.value,
+                            time.value
+                        ).atZone(ZoneId.systemDefault()).toEpochSecond() * 1000] = pendingIntent
                     }) {
                     Text(stringResource(com.example.notify.R.string.confirm_button))
                 }
@@ -151,6 +153,7 @@ fun EventsScreen() {
             }
         )
     }
+
 
 
     MaterialDialog(
@@ -182,3 +185,4 @@ fun EventsScreen() {
         }
     }
 }
+

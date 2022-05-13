@@ -25,7 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".presentation.screens.events.MyBroadcastReceiver"></receiver>
+        <receiver android:name=".presentation.screens.events.MyBroadcastReceiver">
+
+        </receiver>
     </application>
 
 </manifest>
