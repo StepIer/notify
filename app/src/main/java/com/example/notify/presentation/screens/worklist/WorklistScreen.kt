@@ -2,11 +2,13 @@ package com.example.notify.presentation.screens.worklist
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -18,6 +20,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.notify.R
 import com.example.notify.domain.worklist.model.Worklist
+import com.example.notify.presentation.components.NotifyAlertDialog
 import com.example.notify.presentation.components.NotifyTextField
 import com.example.notify.presentation.screens.worklist.components.WorklistAddBtn
 import com.example.notify.presentation.screens.worklist.components.WorklistTile
@@ -41,6 +44,9 @@ fun ToDoListScreen(
     val color = remember { mutableStateOf(Orange400.toArgb()) }
     var expanded by remember { mutableStateOf(false) }
 
+    val openDialog = remember { mutableStateOf(false) }
+    val selectedWorklist = remember { mutableStateOf<Worklist?>(null) }
+
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -50,13 +56,24 @@ fun ToDoListScreen(
                     navController.navigate(NavigationRoute.ROUTE_ENTRY + "?${NavigationArguments.ARGUMENT_WORKLIST}=${it.title}")
                 },
                 onDeleteClick = {
-                    worklistViewModel.deleteWorklist(title = it.title)
+                    selectedWorklist.value = it
+                    openDialog.value = true
                 })
         }
         item {
             WorklistAddBtn {
                 isOpenDialog.value = true
             }
+        }
+    }
+
+    NotifyAlertDialog(
+        isOpenDialog = openDialog,
+        title = stringResource(id = R.string.title_dialog_worklist),
+        text = stringResource(id = R.string.text_dialog_worklist)
+    ) {
+        selectedWorklist.value?.let { worklist ->
+            worklistViewModel.deleteWorklist(title = worklist.title)
         }
     }
 
@@ -70,52 +87,59 @@ fun ToDoListScreen(
                     NotifyTextField(value = title.value, onValueChange = {
                         title.value = it
                     }, placeholder = "Add title")
-                    Box {
-                        IconButton(onClick = {
-                            expanded = true
-                        }) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_outline_palette_24),
-                                contentDescription = "change color",
-                                tint = Color(color.value)
-                            )
-                        }
-                        DropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
+                    Row() {
+                        Text(
+                            text = "Choose color: ",
+                            modifier = Modifier.align(alignment = Alignment.CenterVertically)
+                        )
+                        Box {
                             IconButton(onClick = {
-                                color.value = Red400.toArgb()
-                                expanded = false
+                                expanded = true
                             }) {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.ic_outline_invert_colors_24),
-                                    contentDescription = "red color",
-                                    tint = Red400
+                                    painter = painterResource(id = R.drawable.ic_outline_palette_24),
+                                    contentDescription = "change color",
+                                    tint = Color(color.value)
                                 )
                             }
-                            IconButton(onClick = {
-                                color.value = Orange400.toArgb()
-                                expanded = false
-                            }) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_outline_invert_colors_24),
-                                    contentDescription = "orange color",
-                                    tint = Orange400
-                                )
-                            }
-                            IconButton(onClick = {
-                                color.value = Green400.toArgb()
-                                expanded = false
-                            }) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_outline_invert_colors_24),
-                                    contentDescription = "green color",
-                                    tint = Green400
-                                )
+                            DropdownMenu(
+                                expanded = expanded,
+                                onDismissRequest = { expanded = false }
+                            ) {
+                                IconButton(onClick = {
+                                    color.value = Red400.toArgb()
+                                    expanded = false
+                                }) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_outline_invert_colors_24),
+                                        contentDescription = "red color",
+                                        tint = Red400
+                                    )
+                                }
+                                IconButton(onClick = {
+                                    color.value = Orange400.toArgb()
+                                    expanded = false
+                                }) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_outline_invert_colors_24),
+                                        contentDescription = "orange color",
+                                        tint = Orange400
+                                    )
+                                }
+                                IconButton(onClick = {
+                                    color.value = Green400.toArgb()
+                                    expanded = false
+                                }) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_outline_invert_colors_24),
+                                        contentDescription = "green color",
+                                        tint = Green400
+                                    )
+                                }
                             }
                         }
                     }
+
                 }
             },
             confirmButton = {

@@ -12,4 +12,8 @@
     <!--    tablet screen-->
     <string name="tap_to_start_write">Tap to start write</string>
     <string name="title_note">Title note</string>
+
+    <!--    worklist screen-->
+    <string name="title_dialog_worklist">Delete worklist</string>
+    <string name="text_dialog_worklist">Are you sure you want to delete the worklist</string>
 </resources>

@@ -18,7 +18,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.work.WorkManager
 import com.example.notify.domain.events.model.Event
 import com.example.notify.presentation.components.NotifyTextField
 import com.example.notify.presentation.screens.events.components.EventsAddBtn
@@ -51,7 +50,6 @@ fun EventsScreen() {
     val dateDialogState = rememberMaterialDialogState()
     val timeDialogState = rememberMaterialDialogState()
 
-    val workManager = WorkManager.getInstance(LocalContext.current)
     val context = LocalContext.current
 
     LazyColumn(
@@ -125,8 +123,8 @@ fun EventsScreen() {
                         isOpenDialog.value = false
                         val random = Random(200)
                         val intent = Intent(context, MyBroadcastReceiver::class.java)
-                        intent.putExtra("title", title.value + ": " + message.value)
-                        intent.putExtra("message", title.value + ": " + message.value)
+                        intent.putExtra("title", title.value)
+                        intent.putExtra("message", message.value)
                         val pendingIntent = PendingIntent.getBroadcast(
                             context.applicationContext,
                             random.nextInt(),
@@ -154,8 +152,6 @@ fun EventsScreen() {
         )
     }
 
-
-
     MaterialDialog(
         dialogState = dateDialogState,
         buttons = {
@@ -170,7 +166,6 @@ fun EventsScreen() {
     }
 
 /* This should be called in an onClick or an Effect */
-
 
     MaterialDialog(
         dialogState = timeDialogState,
